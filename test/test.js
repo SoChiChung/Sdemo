@@ -1,0 +1,1 @@
+a=Math.random(100)
