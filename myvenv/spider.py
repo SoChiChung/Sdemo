@@ -11,11 +11,11 @@
 import urllib.request
 import socket
 import re
-import xlwt
+import os
+import myXlwt
 from bs4 import BeautifulSoup
 
 BaseUrl = ""
-Savepath = ""
 
 
 def setBaseUrl(url):
@@ -26,16 +26,6 @@ def setBaseUrl(url):
 def getBaseUrl():
     global BaseUrl
     return BaseUrl
-
-
-def setSavepath(savepath):
-    global Savepath
-    Savepath = savepath
-
-
-def getSavepath():
-    global Savepath
-    return Savepath
 
 
 def askURL(url):
@@ -77,8 +67,8 @@ def getData(baseurl):
     findAvg = re.compile(r"v:average\">(.*)<")
     findrating = re.compile(r"span>(\d*)人评价<\/span>")
     # ( ˚ཫ˚ )-----------------------------------( ˚ཫ˚ )-----------------------------------( ˚ཫ˚ )
-    for i in range(0, 2):
-        url = baseurl + str(i * 2)
+    for i in range(0, 10):
+        url = baseurl + str(i * 25)
         html = askURL(url)
         # 解析数据
         soup = BeautifulSoup(html, "html.parser")
@@ -131,7 +121,6 @@ def getData(baseurl):
                 data.append("")
 
             # 平均分
-            datalist.append(data)
             avg = re.findall(findAvg, item)
             if len(avg) > 0:
                 data.append(avg[0])
@@ -140,28 +129,39 @@ def getData(baseurl):
             # 评分人数
             rating = re.findall(findrating, item)
             data.append(rating[0] if len(rating) > 0 else 0)
-
+            datalist.append(data)
             # print(data.pop())
     return datalist
 
 
-def saveData(savepath):
-    
+def saveData(savepath, type: int, datalist):  # 传入参数 type：1 代表用Excel 2代表用数据库
+    if type == 1:
+        saveDataByExcel(savepath, datalist)
+    elif type == 2:
+        saveDataByMongo(savepath, datalist)
     return
+
+
+def saveDataByExcel(savepath, datalist):  # headrow就自己写了 不传参了
+    headrow = ["链接", "插图地址", "中文片名", "英文片名", "其他片名", "详情", "简评", "评分", "打分人数"]
+    book = myXlwt.mybook(headrow, "1", datalist)
+    myXlwt.savemybook(savepath)
 
 
 if __name__ == "__main__":
 
     setBaseUrl("https://movie.douban.com/top250?start=")
     baseurl = getBaseUrl()
-    setSavepath(".\\豆瓣电影TOP250.xls")
-    savepath = getSavepath()
-    saveData(savepath)
+    # setSavepath(".\\豆瓣电影TOP250.xls")
+    # savepath = getSavepath()
     # 1.爬取网页
+    # askURL(baseurl + "")
+
+    # 2.解析数据
     datalist = getData(baseurl)
     # for data in datalist:
-    #     print(data)
-    # 2.解析数据
-
+    # print(data)
     # 3.保存数据
-    # askURL(baseurl + "")
+    # 通过excel保存
+    savepath = os.path.dirname(__file__) + "/output/豆瓣电影TOP250.xls"
+    saveData(savepath, 1, datalist)

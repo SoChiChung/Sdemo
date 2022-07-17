@@ -20,7 +20,8 @@ import myXlwt
 # beautifulsoup 一个可以将html解析的库
 
 # 文件读取
-file = open("F:/python/爬虫/test.html", "rb")
+filepath = fatherdir + "/test.html"
+file = open(filepath, "rb")
 html = file.read()
 bs = BeautifulSoup(html, "html.parser")
 datalist = []
@@ -106,13 +107,10 @@ for item in bs.find_all("div", attrs={"class": "item"}):
     rating = re.findall(findrating, item)
     data.append(rating[0] if len(rating) > 0 else 0)
     datalist.append(data)
-
-# Excel 保存
-headrow={
-    "链接","插图地址","中文片名","英文片名","其他片名"
-}
-book
-
-
 # for data in datalist:
 #     print(data)
+
+# Excel 保存
+headrow = ["链接", "插图地址", "中文片名", "英文片名", "其他片名", "详情", "简评", "评分", "打分人数"]
+book = myXlwt.mybook(headrow, "1", datalist)
+myXlwt.savemybook(os.path.dirname(__file__) + "/test.xls")
