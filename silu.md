@@ -2,7 +2,7 @@
  * @Author: SoChichung
  * @Date: 2022-07-16 14:11:37
  * @LastEditors: SoChichung
- * @LastEditTime: 2022-07-16 16:46:43
+ * @LastEditTime: 2022-07-21 00:53:42
  * @Description:
  *
  * Copyright (c) 2022 by SoChichung ddeadwings@gmail.com, All Rights Reserved.
@@ -20,4 +20,8 @@
     - _datalist_:一个二维数组 包含爬取的数据 不包含第一行的题头
   - 封装一个 _save_ 方法 输入参数 _savepath_ 保存工作簿
 
-  -
+### **_pymongo_** 环境搭建思路
+
+- 封装一个 _getPmongo_ 类
+
+* 每次 _insert_ 加入时间戳

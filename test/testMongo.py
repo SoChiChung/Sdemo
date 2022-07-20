@@ -2,6 +2,15 @@
 Author: SoChichung
 Date: 2022-07-17 19:57:28
 LastEditors: SoChichung
+LastEditTime: 2022-07-20 22:22:22
+Description: 
+
+Copyright (c) 2022 by SoChichung ddeadwings@gmail.com, All Rights Reserved. 
+"""
+"""
+Author: SoChichung
+Date: 2022-07-17 19:57:28
+LastEditors: SoChichung
 LastEditTime: 2022-07-18 20:42:56
 Description: 
 
@@ -24,4 +33,4 @@ item_1 = {
     "category": "kitchen appliance",
 }
 
-mycol.insert_one(item_1)
+# mycol.insert_one(item_1)
