@@ -2,7 +2,7 @@
  * @Author: SoChichung
  * @Date: 2022-07-16 14:11:37
  * @LastEditors: SoChichung
- * @LastEditTime: 2022-07-21 21:44:17
+ * @LastEditTime: 2022-07-23 06:54:24
  * @Description:
  *
  * Copyright (c) 2022 by SoChichung ddeadwings@gmail.com, All Rights Reserved.
@@ -22,10 +22,13 @@
 
 ### **_pymongo_** 环境搭建思路
 
-- 封装一个 _getPmongo_ 类
+- 创建一个 _mongo_config_ 文件编写配置
+
+* 封装一个 _getPmongo_ 类
+  - 读入 _mongo_config_ 获取配置
   - 建立 Mongo 连接
   - 根据 DB name 建立对应的 db 对象（代表数据库）
     - 包含 对文档的 crud 的封装
   * 添加对 db 的 crud 操作的封装方法
 
-* 每次 _insert_ 加入时间戳
+- 每次 _insert_ 加入时间戳
