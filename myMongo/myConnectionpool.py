@@ -1,23 +1,22 @@
+'''
+Author: SoChichung
+Date: 2022-07-21 21:30:34
+LastEditors: SoChichung
+LastEditTime: 2022-07-28 03:00:53
+Description: 
+
+Copyright (c) 2022 by SoChichung ddeadwings@gmail.com, All Rights Reserved. 
+'''
 """
 Author: SoChichung
 Date: 2022-07-21 21:30:34
 LastEditors: SoChichung
 LastEditTime: 2022-07-23 10:36:26
-Description: 
+Description:
 
 Copyright (c) 2022 by SoChichung ddeadwings@gmail.com, All Rights Reserved. 
 """
 # -*- encoding: utf-8 -*-
-
-"""
-Author: SoChichung
-Date: 2022-07-21 21:30:34
-LastEditors: SoChichung
-LastEditTime: 2022-07-23 10:00:26
-Description: 连接池文件
-
-Copyright (c) 2022 by SoChichung ddeadwings@gmail.com, All Rights Reserved. 
-"""
 
 
 import pymongo
@@ -53,7 +52,12 @@ class MyConnectionPool:
         # print("创建线程池的数量"+str(i))
         if self._pool is None:
             mongo_url = "mongodb://{0}:{1}@{2}:{3}/".format
-            (config.username, config.passwd, config.host, config.port)
+            (
+                config.DB_TEST_USER,
+                config.DB_TEST_PASSWORD,
+                config.DB_TEST_HOST,
+                config.DB_TEST_PORT,
+            )
             self._pool = pymongo.MongoClient(mongo_url)
             # 用时间戳作为他的指针
             self._pool.cursor = time.time()
@@ -62,8 +66,8 @@ class MyConnectionPool:
     # 从连接池中取出一个连接
     def getconn(self):
         conn = self.__getconn()
-        cursor = conn.cursor
-        return cursor, conn
+        # cursor = conn.cursor
+        return  conn
 
 
 # 获取连接池,实例化

@@ -14,9 +14,9 @@ import sys
 import os
 import time
 
-# print(os.path.dirname(__file__))
-# fatherdir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
-# sys.path.insert(0, fatherdir + "\myvenv")
+print(os.path.dirname(__file__))
+fatherdir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
+sys.path.insert(0, fatherdir + "\myvenv")
 # import myXlwt
 
 # headrow = ["aaa", "b", "c"]
@@ -27,5 +27,17 @@ import time
 # book = myXlwt.mybook(headrow, sheetname, datalist)
 # myXlwt.savemybook("./test.xls")
 
-t=time.time()
-print(t)
+# t = time.time()
+a = []
+a["b"] = 1
+
+
+class test(a):
+    def __init__(self):
+        self.a = a
+
+
+b = "b"
+print(a["b"])
+print(a[0])
+print(a[int(b)])

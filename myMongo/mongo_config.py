@@ -2,20 +2,29 @@
 Author: SoChichung
 Date: 2022-07-23 06:56:11
 LastEditors: SoChichung
+LastEditTime: 2022-07-27 18:06:41
+Description: 
+
+Copyright (c) 2022 by SoChichung ddeadwings@gmail.com, All Rights Reserved. 
+"""
+"""
+Author: SoChichung
+Date: 2022-07-23 06:56:11
+LastEditors: SoChichung
 LastEditTime: 2022-07-23 06:56:45
 Description: 
 
 Copyright (c) 2022 by SoChichung ddeadwings@gmail.com, All Rights Reserved. 
 """
 # -*- coding: UTF-8 -*-
-
+from urllib import parse
 
 # 数据库信息
 DB_TEST_HOST = "127.0.0.1"
-DB_TEST_PORT = 3308
+DB_TEST_PORT = 27017
 DB_TEST_DBNAME = "bt"
-DB_TEST_USER = "root"
-DB_TEST_PASSWORD = "123456"
+DB_TEST_USER = "myUserAdmin"
+DB_TEST_PASSWORD = parse.quote("ahhph")
 
 # 数据库连接编码
 DB_CHARSET = "utf8"
@@ -35,4 +44,4 @@ DB_MAX_USAGE = 0
 DB_SET_SESSION = None
 
 # creator : 使用连接数据库的模块
-DB_CREATOR = pymysql
+# DB_CREATOR = pymysql
