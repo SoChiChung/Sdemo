@@ -24,7 +24,7 @@ DB_TEST_HOST = "127.0.0.1"
 DB_TEST_PORT = 27017
 DB_TEST_DBNAME = "bt"
 DB_TEST_USER = "myUserAdmin"
-DB_TEST_PASSWORD = parse.quote("ahhph")
+DB_TEST_PASSWORD = parse.quote("aahph")
 
 # 数据库连接编码
 DB_CHARSET = "utf8"

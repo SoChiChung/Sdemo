@@ -8,19 +8,15 @@ Description:
 Copyright (c) 2022 by SoChichung ddeadwings@gmail.com, All Rights Reserved. 
 """
 import time
-from MyConnectionpool import get_my_connection
+import Myconnection
 
 
-class MySqlHelper:
+class SqlHelper:
     def __init__(self, dbname):
-        connection = get_my_connection()
+        connection = Myconnection()
         print(connection)
-        conn = connection.getconn()
-        print(conn)
-        self.client = conn._pool
-        client=self.client
-        print(client)
-        print(client._pool)
+        self.client = Myconnection.getClient()
+        client = self.client
         self.db = client[dbname]
 
     # 执行命令
