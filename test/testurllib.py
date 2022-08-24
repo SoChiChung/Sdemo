@@ -1,3 +1,12 @@
+"""
+Author: SoChichung
+Date: 2022-06-28 10:58:05
+LastEditors: SoChichung
+LastEditTime: 2022-08-24 00:18:39
+Description: 
+
+Copyright (c) 2022 by SoChichung ddeadwings@gmail.com, All Rights Reserved. 
+"""
 # 测试urllib
 # -*-coding:utf-8-*-
 import urllib.request

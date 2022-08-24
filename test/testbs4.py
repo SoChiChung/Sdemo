@@ -142,6 +142,8 @@ for item in bs.find_all("div", attrs={"class": "item"}):
     rating = re.findall(findrating, item)
     data.append(rating[0] if len(rating) > 0 else 0)
     datalist.append(data)
+
+
 # for data in datalist:
 #     print(data)
 # for i in range(0,len(etitles)):
