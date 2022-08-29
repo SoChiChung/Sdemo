@@ -30,10 +30,12 @@
 
 - 封装一个 [_MySqlHelper_](./myMongo/mysqlhelper.py) 类
 
-  - MySqlHelper(dbname)=>db传入dbname
-  - 
+  - MySqlHelper(dbname)=>db 传入 dbname
+  -
   - 包含 对文档的 crud 的封装
 
   * 添加对 db 的 crud 操作的封装方法
+  * 这里插入的data对象是**dict**方式存储数据
+  
 
 * 每次 _insert_ 加入时间戳

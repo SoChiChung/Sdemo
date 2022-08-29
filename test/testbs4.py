@@ -23,7 +23,9 @@ import myXlwt
 # 文件读取
 filepath = fatherdir + "/test.html"
 file = open(filepath, "rb")
-# html = file.read()
+html = file.read()
+
+
 def askURL(url):
     head = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/103.0.0.0 Safari/537.36"
@@ -50,7 +52,8 @@ def askURL(url):
     return html
 
 
-html = askURL("https://movie.douban.com/top250")
+# html = askURL("https://movie.douban.com/top250")
+
 bs = BeautifulSoup(html, "html.parser")
 datalist = []
 
@@ -63,95 +66,178 @@ datalist = []
 
 # flags:正则表达式使用时的控制标记
 
-findlink = re.compile(r'href="(.*)"')
-findimgSrc = re.compile(r'src="(.*)"\s')
-findtitles = re.compile(r'"title">(.*?)<')
-findothers = re.compile(r'other">(.*)<')
-findinq = re.compile(r"class=\"inq\">(.*?)<")
-findAvg = re.compile(r"v:average\">(.*)<")
-findrating = re.compile(r"span>(\d*)人评价<\/span>")
-findbd = re.compile(r'<p\sclass="">(.*?)</p>', re.S)
 
-# 直接读取标签（第一个找到的标签）
-# print(bs.a)
-# # 读取标签内容 innerhtml
-# print(bs.a.string)
-etitles = []
-for item in bs.find_all("div", attrs={"class": "item"}):
-    # print(item)
-    data = []
+def getData(bs, datalist):
+    findlink = re.compile(r'href="(.*)"')
+    findimgSrc = re.compile(r'src="(.*)"\s')
+    findtitles = re.compile(r'"title">(.*?)<')
+    findothers = re.compile(r'other">(.*)<')
+    findinq = re.compile(r"class=\"inq\">(.*?)<")
+    findAvg = re.compile(r"v:average\">(.*)<")
+    findrating = re.compile(r"span>(\d*)人评价<\/span>")
+    findbd = re.compile(r'<p\sclass="">(.*?)</p>', re.S)
 
-    item = str(item)
-    # link
-    link = re.findall(findlink, item)
-    if len(link) > 0:
-        data.append(link[0])
-    else:
-        data.append("")
-    # imgSrc
-    imgSrc = re.findall(findimgSrc, item)
-    if len(imgSrc) > 0:
-        data.append(imgSrc[0])
-    else:
-        data.append("")
-    # title
-    titles = re.findall(findtitles, item)
-    length = len(titles)
-    ctitle = titles[0]
-    data.append(ctitle)
+    # 直接读取标签（第一个找到的标签）
+    # print(bs.a)
+    # # 读取标签内容 innerhtml
+    # print(bs.a.string)
+    etitles = []
+    for item in bs.find_all("div", attrs={"class": "item"}):
+        # print(item)
+        data = []
 
-    if length > 1:
-        etitles.append(titles[1])
-        data.append(titles[1].replace("\xa0/\xa0", ""))
-    else:
-        etitles.append("无")
-        data.append("无")
-    # others
-    others = re.findall(findothers, item)[0]
-    data.append(others.replace("\xa0/\xa0", ""))
-    # print(
-    # "(;´༎ຶД༎ຶ`)-----------------------------------( ˚ཫ˚ )-----------------------------------( ˚ཫ˚ )`)"
-    # )
+        item = str(item)
+        # link
+        link = re.findall(findlink, item)
+        if len(link) > 0:
+            data.append(link[0])
+        else:
+            data.append("")
+        # imgSrc
+        imgSrc = re.findall(findimgSrc, item)
+        if len(imgSrc) > 0:
+            data.append(imgSrc[0])
+        else:
+            data.append("")
+        # title
+        titles = re.findall(findtitles, item)
+        length = len(titles)
+        ctitle = titles[0]
+        data.append(ctitle)
 
-    # 信息
-    bd = re.findall(findbd, item)
+        if length > 1:
+            etitles.append(titles[1])
+            data.append(titles[1].replace("\xa0/\xa0", ""))
+        else:
+            etitles.append("无")
+            data.append("无")
+        # others
+        others = re.findall(findothers, item)[0]
+        data.append(others.replace("\xa0/\xa0", ""))
+        # print(
+        # "(;´༎ຶД༎ຶ`)-----------------------------------( ˚ཫ˚ )-----------------------------------( ˚ཫ˚ )`)"
+        # )
 
-    if len(bd) > 0:
-        bd = bd[0]
-        bd = re.sub("<br/>\s*", " ", bd)
-        bd = re.sub("[\n\s\xa0]", " ", bd)
-        print(bd)
-        data.append(bd.strip())
-    else:
-        data.append("")
-    # 一句话评价
-    inq = re.findall(findinq, item)
-    if len(inq) > 0:
-        data.append(inq[0])
-    else:
-        data.append("")
+        # 信息
+        bd = re.findall(findbd, item)
 
-    # 平均分
-    datalist.append(data)
-    avg = re.findall(findAvg, item)
-    if len(avg) > 0:
-        data.append(avg[0])
-    else:
-        data.append("")
-    # 评分人数
-    rating = re.findall(findrating, item)
-    data.append(rating[0] if len(rating) > 0 else 0)
-    datalist.append(data)
+        if len(bd) > 0:
+            bd = bd[0]
+            bd = re.sub("<br/>\s*", " ", bd)
+            bd = re.sub("[\n\s\xa0]", " ", bd)
+            data.append(bd.strip())
+        else:
+            data.append("")
+        # 一句话评价
+        inq = re.findall(findinq, item)
+        if len(inq) > 0:
+            data.append(inq[0])
+        else:
+            data.append("")
 
+        # 平均分
+        datalist.append(data)
+        avg = re.findall(findAvg, item)
+        if len(avg) > 0:
+            data.append(avg[0])
+        else:
+            data.append("")
+        # 评分人数
+        rating = re.findall(findrating, item)
+        data.append(rating[0] if len(rating) > 0 else 0)
+        datalist.append(data)
+    return datalist
+
+
+# 将datalist转为对线数组
+def getDataToDict(bs, datalist):
+    findlink = re.compile(r'href="(.*)"')
+    findimgSrc = re.compile(r'src="(.*)"\s')
+    findtitles = re.compile(r'"title">(.*?)<')
+    findothers = re.compile(r'other">(.*)<')
+    findinq = re.compile(r"class=\"inq\">(.*?)<")
+    findAvg = re.compile(r"v:average\">(.*)<")
+    findrating = re.compile(r"span>(\d*)人评价<\/span>")
+    findbd = re.compile(r'<p\sclass="">(.*?)</p>', re.S)
+
+    # 直接读取标签（第一个找到的标签）
+    # print(bs.a)
+    # # 读取标签内容 innerhtml
+    # print(bs.a.string)
+    for item in bs.find_all("div", attrs={"class": "item"}):
+        # print(item)
+        data = {}
+
+        item = str(item)
+        # link
+        link = re.findall(findlink, item)
+        if len(link) > 0:
+            data["link"] = link[0]
+        else:
+            data["link"] = ""
+        # imgSrc
+        imgSrc = re.findall(findimgSrc, item)
+        if len(imgSrc) > 0:
+            data["imgSrc"] = imgSrc[0]
+        else:
+            data["imgSrc"] = ""
+        # title
+        titles = re.findall(findtitles, item)
+        length = len(titles)
+        ctitle = titles[0]
+        data["ctitle"] = ctitle
+
+        if length > 1:
+            data["etitle"] = titles[1].replace("\xa0/\xa0", "")
+        else:
+            data["etitle"] = "无"
+        # others
+        others = re.findall(findothers, item)[0]
+        data["others"] = others.replace("\xa0/\xa0", "")
+        # print(
+        # "(;´༎ຶД༎ຶ`)-----------------------------------( ˚ཫ˚ )-----------------------------------( ˚ཫ˚ )`)"
+        # )
+
+        # 信息
+        bd = re.findall(findbd, item)
+
+        if len(bd) > 0:
+            bd = bd[0]
+            bd = re.sub("<br/>\s*", " ", bd)
+            bd = re.sub("[\n\s\xa0]", " ", bd)
+            data["bd"] = bd.strip()
+        else:
+            data["bd"] = ""
+        # 一句话评价
+        inq = re.findall(findinq, item)
+        if len(inq) > 0:
+            data["inq"] = inq[0]
+        else:
+            data["inq"] = ""
+
+        # 平均分
+        avg = re.findall(findAvg, item)
+        if len(avg) > 0:
+            data["avg"] = avg[0]
+        else:
+            data["avg"] = ""
+        # 评分人数
+        rating = re.findall(findrating, item)
+        data["rating"] = rating[0] if len(rating) > 0 else 0
+        datalist.append(data)
+    return datalist
+
+
+# a={}
+# a['link']=1
+
+# print(a)
+getDataToDict(bs, datalist)
 
 # for data in datalist:
 #     print(data)
-# for i in range(0,len(etitles)):
-#     print(etitles[i])
 
 # Excel 保存
 # headrow = ["链接", "插图地址", "中文片名", "英文片名", "其他片名", "详情", "简评", "评分", "打分人数"]
 # book = myXlwt.mybook(headrow, "1", datalist)
 # myXlwt.savemybook(os.path.dirname(__file__) + "/test.xls")
-
-

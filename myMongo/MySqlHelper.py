@@ -2,7 +2,7 @@
 Author: SoChichung
 Date: 2022-07-23 17:08:52
 LastEditors: SoChichung
-LastEditTime: 2022-07-26 22:08:33
+LastEditTime: 2022-08-29 06:58:11
 Description: 
 
 Copyright (c) 2022 by SoChichung ddeadwings@gmail.com, All Rights Reserved. 
@@ -10,18 +10,17 @@ Copyright (c) 2022 by SoChichung ddeadwings@gmail.com, All Rights Reserved.
 import time
 import Myconnection
 
-
+# print(dir(Myconnection))
 class SqlHelper:
     def __init__(self, dbname):
-        connection = Myconnection()
-        print(connection)
-        self.client = Myconnection.getClient()
+        connection = Myconnection.Myconnection()
+        self.client = connection.getClient()
         client = self.client
         self.db = client[dbname]
 
     # 执行命令
     # 增
-    def insert_one(collection, item):
+    def insert_one(self,collection, item):
         db = self.db
         dbcollection = db[collection]
         try:
@@ -33,7 +32,7 @@ class SqlHelper:
         except Exception as e:
             print("报错：" + e.__str__())
 
-    def insert_many(collection, item_list):
+    def insert_many(self,collection, item_list):
         db = self.db
         dbcollection = db[collection]
         try:
@@ -43,7 +42,7 @@ class SqlHelper:
             print("报错：" + e.__str__())
 
     # 查
-    def findone(collection, item):
+    def findone(self,collection, item):
         db = self.db
         dbcollection = db[collection]
         res = None
@@ -53,7 +52,7 @@ class SqlHelper:
         except Exception as e:
             print("报错：" + e.__str__())
 
-    def findall(collection, item):
+    def findall(self,collection, item):
         res = []
         db = self.db
         try:
